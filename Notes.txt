@@ -1,0 +1,7 @@
+Channels Layer : Channel layers allow you to talk between different instances of an application.
+
+Redis : Redis work as a communication store for the channel layer.
+        pip install channels-redis
+
+        Redis is for linux so download and install memurai 
+

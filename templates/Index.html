@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid d-flex flex-nowrap align-items-center justify-content-center" style="height: 100vh">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-2 border-primary p-5">
+                <div class="card-body">
+                    <h3 style="font-family: 'Pacifico', cursive; font-weight: semibold">
+                        ChatRoom
+                    </h3>
+                    <hr class="mt-3 mb-4" />
+                    <!-- Username -->
+                    <form action="" class="" id="userNameForm">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control bg-light" id="username" placeholder="Username"
+                                required />
+                            <label for="username">Username</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="nextBtn">
+                            Next
+                        </button>
+                    </form>
+
+                    <div class="d-none flex-nowrap align-items-center justify-content-center gap-2 md:p-5"
+                        id="features">
+                        <button type="button" class="btn btn-primary border-2" id="generateBtn">
+                            Generate Room
+                        </button>
+                        <button type="button" class="btn btn-outline-primary border-2" id="joinBtn">
+                            Join Room
+                        </button>
+                    </div>
+
+                    <div class="sm:p-5">
+                        <form class="form-floating my-3 d-none flex-nowrap justify-content-center gap-2" id="roomForm">
+                            <input type="text" class="form-control bg-light" id="room_name" placeholder="Room Name" />
+                            <label for="room_name">Room ID</label>
+                            <button type="submit" class="btn btn-primary text-nowrap">
+                                Join Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="rounded-0"
+                    style="font-family: 'Roboto', sans-serif;font-size: 15px; font-weight: bolder; letter-spacing: 2px;position: absolute;right: 0px;top: -40px;">
+                    <a href="http://piyushthawareportfolio.pythonanywhere.com/" target="_blank" class="text-primary">Visit My Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myForm1 = document.getElementById("userNameForm");
+        myForm1.onsubmit = function (event) {
+            event.preventDefault();
+            let username = document.getElementById("username").value;
+            if (username) {
+                let btn = (document.getElementById("nextBtn").style.display = "none");
+                let features = document.getElementById("features");
+                features.classList.remove("d-none");
+                features.classList.add("d-flex");
+            } else {
+                let btn = (document.getElementById("nextBtn").style.display =
+                    "inline");
+            }
+        };
+
+        // Generate Random Form
+        let generateBtn = document.getElementById("generateBtn");
+        generateBtn.onclick = function (event) {
+            event.preventDefault();
+            var code_length = 5;
+            var characters = "1234567890";
+            var randomCode = "";
+            for (var i = 0; i < code_length; i++) {
+                var randomDigit = Math.floor(Math.random() * 10);
+                randomCode += randomDigit;
+            }
+            // Getting User Name
+            var user_name = document.getElementById("username").value;
+            window.location.pathname = `/room/${randomCode}/${user_name}`;
+        };
+
+        // Join Room Code
+        let joinBtn = document.getElementById("joinBtn");
+        joinBtn.onclick = function (event) {
+            event.preventDefault();
+            let roomForm = document.getElementById("roomForm");
+            roomForm.classList.remove("d-none");
+            roomForm.classList.add("d-flex");
+        };
+        // Room form
+
+        let roomForm = document.getElementById("roomForm");
+        roomForm.onsubmit = function (event) {
+            event.preventDefault();
+            let room_name = document.getElementById("room_name").value;
+            // Getting User Name
+            var user_name = document.getElementById("username").value;
+            window.location.pathname = `/room/${room_name}/${user_name}`;
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

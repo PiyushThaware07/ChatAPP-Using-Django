@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid  d-flex flex-nowrap align-items-center" style="height: 100vh">
+        <div class="container">
+            <div class="card px-2 py-5 p-sm-5 shadow-sm border-2 border-primary">
+                <div class="card-body">
+                    <h5 style="font-family: 'Pacifico', cursive; font-weight: semibold;">Hello , <span
+                            class="text-capitalize">{{username}}</span></h5>
+                    <form action="" class="my-3" id="myform">
+                        <div class="form-floating">
+                            <div class="form-control bg-light text-capitalize" placeholder="All Messages" id="chatArea"
+                                style="height: 200px; font-size: 15px; font-weight: 600; overflow-y: scroll;" readonly>
+                                {% for chat in chats %}
+                                {{chat.content}}
+                                {% endfor %}
+                            </div>
+                            <label for="chatArea">Welcome to ChatAPP</label>
+                        </div>
+                        <div class=" d-flex flex-nowrap justify-content-center gap-3 mt-4">
+                            <div class="form-floating w-100 mt-4">
+                                <input type="email" class="form-control bg-light" id="chatInput"
+                                    placeholder="Leave Message Here...">
+                                <label for="chatInput">Leave Message Here...</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary text-nowrap mt-4" id="chatBtn">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <button disabled class="position-absolute btn btn-primary rounded-0 top-0 end-0"
+                    style="font-size: 15px; font-weight: bolder;letter-spacing: 2px;"> Room ID : {{roomname}}</button>
+            </div>
+        </div>
+    </div>
+
+
+    {{roomname|json_script:"room-name"}} {{username|json_script:"user-name"}}
+    <script>
+        // Getting Roomname ----------------------------------
+        const roomName = JSON.parse(
+            document.getElementById("room-name").textContent
+        );
+        console.log("Group Name", roomName);
+        // Getting Username ----------------------------------
+        const userName = JSON.parse(
+            document.getElementById("user-name").textContent
+        );
+        console.log("User Name", userName);
+
+        // Socket Creation -------------------------------------
+        const mysocket = new WebSocket(
+            `ws://${window.location.host}/ws/sc/${roomName}/${userName}/`
+        );
+        mysocket.onopen = function (e) {
+            console.warn("Websocket Connection Open...", e);
+            // mysocket.send('Hi,from client')
+        };
+
+        mysocket.onmessage = function (e) {
+            console.log("Message Received From the server...", event.data, typeof (event.data), event);
+            str_to_js_Object = JSON.parse(event.data);
+            const chat_Area = document.getElementById("chatArea");
+            chat_Area.innerHTML += `<span class="text-primary ps-2">${str_to_js_Object.user.charAt(0).toUpperCase() + str_to_js_Object.user.slice(1)} 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg> 
+                                    </span>
+                                    ${str_to_js_Object.msg}<br>`;
+        };
+
+        mysocket.onclose = function (e) {
+            console.warn("Websocket Connection Close...");
+        };
+
+        var btn = document.getElementById("chatBtn");
+        btn.onclick = function (event) {
+            event.preventDefault();
+            const messageInputDom = document.getElementById("chatInput");
+            const message = messageInputDom.value;
+            const myObj = { msg: message, user: '' };
+            mysocket.send(JSON.stringify(myObj)); // Js Object to Json String
+            messageInputDom.value = ""; // once msg is send the black the input or empty it.
+        };
+    </script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+</html>
