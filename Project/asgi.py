@@ -20,3 +20,6 @@ application = ProtocolTypeRouter({
     'http': get_asgi_application(),
     'websocket': URLRouter(App.Routing.websocket_urlpatterns),
 })
+
+# Vercel Doesn't know application varibale so use below it only knwos app
+app = application
