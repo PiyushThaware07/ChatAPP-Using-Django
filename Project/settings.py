@@ -73,21 +73,23 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'Project.wsgi.application'
 ASGI_APPLICATION = 'Project.asgi.application'
 # Channel Layers with redis
-''' 
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("redis://red-ckhahiq12bvs73c570mg:6379", 6379)],
         },
     },
 }
+# In Memory 
 '''
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
+'''
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
