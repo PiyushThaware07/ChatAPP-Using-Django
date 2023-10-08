@@ -61,7 +61,7 @@
 
         // Socket Creation -------------------------------------
         const mysocket = new WebSocket(
-            `ws://${window.location.host}/ws/sc/${roomName}/${userName}/`
+            `wss://${window.location.host}/ws/sc/${roomName}/${userName}/`
         );
         mysocket.onopen = function (e) {
             console.warn("Websocket Connection Open...", e);
