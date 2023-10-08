@@ -19,7 +19,8 @@ from some_asgi_library import AmazingMiddleware
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 
-application = ProtocolTypeRouter({
+application =  AmazingMiddleware(ProtocolTypeRouter({
     'https': get_asgi_application(),
     'websocket': URLRouter(App.Routing.websocket_urlpatterns),
 })
+)
