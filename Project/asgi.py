@@ -17,6 +17,6 @@ import App.Routing
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 
 application = ProtocolTypeRouter({
-    'http': get_asgi_application(),
+    'https': get_asgi_application(),
     'websocket': URLRouter(App.Routing.websocket_urlpatterns),
 })
