@@ -14,6 +14,9 @@ from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 import App.Routing
 
+# ASGIN Deploy
+from some_asgi_library import AmazingMiddleware
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 
 application = ProtocolTypeRouter({
